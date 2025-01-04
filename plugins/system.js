@@ -27,10 +27,21 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
         const architecture = os.arch();  // Architecture (e.g., 'x64', 'arm', etc.)
         
         // Prepare the status message
-        const statusMessage = `
-        🕒 **Bot Uptime**: ${uptime}
-        💻 **Platform**: ${platform} ${architecture}
-        🛠 **Developed by**: Charuka Mahesh (Queen Chethi)
+        const statusMessage = `> Ｗʜɪꜱᴘᴇʀ ᴹᴰ🧚‍♀️
+
+╭─────────────✑
+
+🆙 Ｕᴘᴛɪᴍᴇ : ${uptime}
+
+✨Ｐʟᴀᴛꜰᴏʀᴍ : ${platform} ${architecture}
+
+╰─────────────✑
+
+🌻ᴅᴇᴠᴇʟᴏᴘᴇᴅ ʙʏ Ｃʜᴀʀᴜᴋᴀ✨
+
+✨ʟᴀꜱᴛ ᴜᴘᴅᴀᴛᴇ 2025/01/05🌻
+
+> Ｐᴏᴡᴇʀᴇᴅ Ｂʏ  Ｃʜᴀʀᴜᴋᴀ ᵀᴹ🧚‍♀️
         `;
         
         // Send the status message
