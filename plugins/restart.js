@@ -11,7 +11,7 @@ cmd({
 async(conn, mek, m,{from, quoted, body, isCmd, command, args, q, isGroup, sender, senderNumber, botNumber2, botNumber, pushname, isMe, isOwner, groupMetadata, groupName, participants, groupAdmins, isBotAdmins, isAdmins, reply}) => {
 try{
 const {exec} = require("child_process")
-reply("Ｗʜɪꜱᴘᴇʀ ᴹᴰ🧚‍♀️ɪꜱ Ｒᴇꜱᴛᴀʀᴛɪɴɢ...✨ 
+reply("Ｗʜɪꜱᴘᴇʀ ᴹᴰ🧚‍♀️ɪꜱ Ｒᴇꜱᴛᴀʀᴛɪɴɢ...✨ \n
       > Ｐᴏᴡᴇʀᴇᴅ Ｂʏ  Ｃʜᴀʀᴜᴋᴀ ᵀᴹ🧚‍♀️")
 await sleep(1500)
 exec("pm2 restart all")
