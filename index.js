@@ -79,7 +79,7 @@ let up = `*Ｗʜɪꜱᴘᴇʀ ᴹᴰ*🧚‍♀️ ɪꜱ ᴄᴏɴɴᴇᴄᴛᴇ�
 
 > Ｐᴏᴡᴇʀᴇᴅ Ｂʏ  Ｃʜᴀʀᴜᴋᴀ ᵀᴹ🧚‍♀️`;
 
-conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://raw.githubusercontent.com/CharukaMahesh/-/refs/heads/main/img/5892b71b-13ee-4dd6-889e-c3d9daa122c7.jpeg?token=GHSAT0AAAAAAC2GQJEMRARI263E67KI4D2SZ3ZKSVA` }, caption: up })
+conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `` }, caption: up })
 
 }
 })
