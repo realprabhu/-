@@ -79,7 +79,7 @@ let up = `*Ｗʜɪꜱᴘᴇʀ ᴹᴰ*🧚‍♀️ ɪꜱ ᴄᴏɴɴᴇᴄᴛᴇ�
 
 > Ｐᴏᴡᴇʀᴇᴅ Ｂʏ  Ｃʜᴀʀᴜᴋᴀ ᵀᴹ🧚‍♀️`;
 
-conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `` }, caption: up })
+conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://ibb.co/42yMsmN` }, caption: up })
 
 }
 })
