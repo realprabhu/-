@@ -21,6 +21,7 @@ cmd({
 },
 async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, reply }) => {
     try {
+        await m.react("⚙️");
         // Get system information
         const uptime = formatUptime(process.uptime());  // Bot uptime
         const platform = os.platform();  // Platform (e.g., 'linux', 'win32', etc.)
