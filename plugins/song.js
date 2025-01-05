@@ -1,87 +1,85 @@
 const { cmd } = require('../command'); // Command handler
-const yts = require('yt-search'); // YouTube search package
-const ytdl = require('ytdl-core'); // YouTube download core
+const axios = require('axios'); // HTTP client
+const ytdl = require('ytdl-core'); // YouTube downloader
 const fs = require('fs'); // File system module
 
-// 🎶--------SONG-DOWNLOAD COMMAND-------//
 cmd({
     pattern: "song",
     alias: ["ytmp3", "splay"],
-    desc: "Download songs from YouTube",
+    desc: "Download songs from YouTube with details",
     category: "download",
     filename: __filename
 },
 async (conn, mek, m, { from, quoted, q, reply }) => {
     try {
-        if (!q) return reply("*🚫 Please provide a valid song name or YouTube URL... 🎶*");
+        if (!q) return reply("*🚫 Please provide a valid YouTube URL or song name... 🎶*");
 
         console.log("User Query:", q);
 
-        // React with 🔍 and show searching text
-        await conn.sendMessage(from, { react: { text: "🔍", key: mek.key } });
-        reply("*🔎 Searching for your song... Please wait!*");
-
-        // Perform YouTube search if the query is not a URL
-        const search = await yts(q);
-        if (!search.videos || search.videos.length === 0) {
-            return reply("*❌ No results found for your query. Please try again.*");
+        // Search for the video details if not a URL
+        let videoURL = q;
+        if (!ytdl.validateURL(q)) {
+            reply("*🔍 Searching for your song... Please wait!*");
+            const searchResponse = await axios.get(`https://www.youtube.com/results?search_query=${encodeURIComponent(q)}`);
+            const searchHTML = searchResponse.data;
+            const videoID = searchHTML.match(/"videoId":"(.*?)"/)?.[1];
+            if (!videoID) return reply("*❌ No results found for your query.*");
+            videoURL = `https://www.youtube.com/watch?v=${videoID}`;
         }
 
-        const video = search.videos[0]; // Get the first result
-        const { title, url, timestamp, views, ago, thumbnail, duration } = video;
+        // Validate the video URL
+        if (!ytdl.validateURL(videoURL)) {
+            return reply("*❌ Invalid YouTube URL. Please provide a correct one.*");
+        }
 
-        // Prepare the song details
-        const desc = `*⭐ -Sᴏɴɢ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ- ⭐*
+        // Fetch video details
+        const videoInfo = await ytdl.getInfo(videoURL);
+        const { title, lengthSeconds, viewCount, likes, uploadDate, thumbnails } = videoInfo.videoDetails;
+        const duration = new Date(lengthSeconds * 1000).toISOString().substr(11, 8);
 
-> ꜱᴇɴᴅɪɴɢ ᴍᴏʀᴇ ᴅᴇᴛᴀɪʟꜱ ꜰᴏʀ ʏᴏᴜʀ ꜱᴏɴɢ... 🎶
+        // Send video details to the user
+        const description = `*⭐ -Sᴏɴɢ ᴅᴏᴡɴʟᴏᴀᴅᴇʀ- ⭐*
+
+> ꜱᴇɴᴅɪɴɢ ʏᴏᴜʀ ꜱᴏɴɢ.. 🎶
 
 ╭─────────────✑
-◉│ 🎵 *Tɪᴛʟᴇ*: ${title}
-◉│ ⏱️ *Dᴜʀᴀᴛɪᴏɴ*: ${duration || timestamp}
-◉│ 🔔 *Vɪᴇᴡꜱ*: ${views}
-◉│ 📅 *Uᴘʟᴏᴀᴅᴇᴅ Oɴ*: ${ago}
+◉│ *1*    *ᴛɪᴛʟᴇ🎶:* ${title}
+◉│ *2*    *ᴅᴜʀᴀᴛɪᴏɴ⏰:* ${duration}
+◉│ *3*    *ᴠɪᴇᴡꜱ🔔:* ${viewCount}
+◉│ *4*    *ʟɪᴋᴇꜱ👍:* ${likes || "N/A"}
+◉│ *5*    *ᴜᴘʟᴏᴀᴅᴇᴅ📅:* ${uploadDate}
 ╰─────────────✑
 
-*🎧 Eɴᴊᴏʏ Yᴏᴜʀ Sᴏɴɢ!*
+*ᴇɴᴊᴏʏ ʏᴏᴜʀ ꜱᴏɴɢ!*
 
-> ᴘᴏᴡᴇʀᴇᴅ ʙʏ Ｗʜɪꜱᴘᴇʀ ᴹᴰ🧚‍♀️`;
+> ᴘᴏᴡᴇʀᴇᴅ ʙʏ Ｃʜᴀʀᴜᴋᴀ ᵀᴹ🧚‍♀️`;
 
-        // Send the song thumbnail and details
-        await conn.sendMessage(from, { image: { url: thumbnail }, caption: desc }, { quoted: mek });
+        await conn.sendMessage(from, { image: { url: thumbnails[thumbnails.length - 1].url }, caption: description }, { quoted: mek });
 
-        // React with 📥 and show downloading text
-        await conn.sendMessage(from, { react: { text: "📥", key: mek.key } });
+        // Start downloading the audio
+        const tempFilePath = './temp_audio.mp3';
+        const writer = fs.createWriteStream(tempFilePath);
+
         reply("*📥 Downloading your song... Please wait!*");
-
-        // Download the song using ytdl-core
-        const audioStream = ytdl(url, {
+        ytdl(videoURL, {
             quality: 'highestaudio',
             filter: 'audioonly'
-        });
-
-        const tempFilePath = './temp_audio.mp3';
-        const renamedFilePath = './Ｃʜᴀʀᴜᴋᴀ ᵀᴹ🧚‍♀️.mp3';
-
-        const writer = fs.createWriteStream(tempFilePath);
-        audioStream.pipe(writer);
+        }).pipe(writer);
 
         writer.on('finish', async () => {
-            // Rename the downloaded file
-            fs.renameSync(tempFilePath, renamedFilePath);
-
-            // Send the renamed file
+            // Send the downloaded audio
             await conn.sendMessage(from, {
-                audio: { url: renamedFilePath }, // Use the renamed file
+                audio: { url: tempFilePath },
                 mimetype: 'audio/mp3',
-                caption: `🎶 *${title}*`
+                caption: `${title} - Song`
             }, { quoted: mek });
-
-            // Delete the renamed file after sending
-            fs.unlinkSync(renamedFilePath);
 
             // React with ✅ when upload is complete
             await conn.sendMessage(from, { react: { text: "✅", key: mek.key } });
             reply("*✅ Song upload completed. Enjoy!*");
+
+            // Clean up the file
+            fs.unlinkSync(tempFilePath);
         });
 
         writer.on('error', (error) => {
@@ -91,6 +89,6 @@ async (conn, mek, m, { from, quoted, q, reply }) => {
 
     } catch (e) {
         console.log("Error:", e);
-        reply(`*❌ Error: ${e.message ? e.message : "Something went wrong"}`);
+        reply(`*❌ Error: ${e.message ? e.message : "Something went wrong"}*`);
     }
 });
