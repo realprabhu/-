@@ -22,7 +22,7 @@ async (conn, mek, m, { args, reply }) => {
         const summary = await page.summary();
 
         if (summary.extract) {
-            reply(`*Wikipedia Search*\n\n📚 *Title:* ${summary.title}\n\n${summary.extract}\n\n🔗 [Read more on Wikipedia](${summary.content_urls.desktop.page})Ｗʜɪꜱᴘᴇʀ ᴹᴰ🧚‍♀️`);
+            reply(`*Wikipedia Search*\n\n📚 *Title:* ${summary.title}\n\n${summary.extract}\n\n🔗 [Read more on Wikipedia](${summary.content_urls.desktop.page})\n\nＷʜɪꜱᴘᴇʀ ᴹᴰ🧚‍♀️`);
         } else {
             reply("Sorry, I couldn't find anything on that topic.");
         }
