@@ -23,6 +23,7 @@ async (conn, mek, m, { args, reply }) => {
 
         if (summary.extract) {
             reply(`*Wikipedia Search*\n\n📚 *Title:* ${summary.title}\n\n${summary.extract}\n\n🔗 [Read more on Wikipedia](${summary.content_urls.desktop.page})`);
+            await m.react("✅");
         } else {
             reply("Sorry, I couldn't find anything on that topic.");
         }
