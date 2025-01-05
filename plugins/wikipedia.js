@@ -16,6 +16,7 @@ async (conn, mek, m, { args, reply }) => {
     const query = args.join(" "); // Combine all arguments as the search query
 
     try {
+        await m.react("🔍");
         // Fetch summary from Wikipedia
         const page = await wiki.page(query); 
         const summary = await page.summary();
