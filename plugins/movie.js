@@ -1,7 +1,8 @@
-const MovieInfo = require('movie-info');
-const { cmd } = require('../command');
+const axios = require("axios");
+const { cmd } = require("../command");
 
-// Register the "movie" command
+const OMDB_API_KEY = "450c4718"; // Using your provided API key
+
 cmd({
     pattern: "movie",
     desc: "Search for movies and get details",
@@ -11,29 +12,28 @@ cmd({
 async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, reply }) => {
     try {
         if (!q) {
-            return reply("❌ Please provide a movie name to search (e.g., `.movie Inception`).");
+            return reply("❌ Please provide a movie name or IMDb ID to search (e.g., `.movie Inception` or `.movie tt3896198`).");
         }
 
         await m.react("🎥");
 
-        // Create an instance of MovieInfo
-        const movie = new MovieInfo();
+        // Construct API URL (detect IMDb ID or title query)
+        const apiUrl = q.startsWith("tt")
+            ? `https://www.omdbapi.com/?i=${q}&apikey=${OMDB_API_KEY}`
+            : `https://www.omdbapi.com/?t=${encodeURIComponent(q)}&apikey=${OMDB_API_KEY}`;
 
-        // Search for movie by name
-        const result = await movie.search(q);
+        // Fetch movie data
+        const response = await axios.get(apiUrl);
+        const data = response.data;
 
-        if (result.error) {
+        if (data.Response === "False") {
             return reply(`⚠️ No results found for "${q}". Please try another movie.`);
         }
 
-        // Extract movie details from result
-        const { Title, Year, Genre, Director, Actors, Plot, imdbRating, imdbID, Poster } = result;
+        // Extract movie details
+        const { Title, Year, Genre, Director, Actors, Plot, imdbRating, Poster } = data;
 
-        if (!Poster || Poster === "N/A") {
-            return reply("❌ No thumbnail available for this movie.");
-        }
-
-        // Prepare the movie information message
+        // Prepare movie information message
         const movieMessage = `🎥 **Ｍᴏᴠɪᴇ Ｄᴇᴛᴀɪʟꜱ**:
 
 🎬 **Ｔɪᴛʟᴇ:** ${Title}
@@ -42,14 +42,16 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
 🎞 **Ｄɪʀᴇᴄᴛᴏʀ:** ${Director}
 👨‍👩‍👧‍👦 **Ａᴄᴛᴏʀs:** ${Actors}
 ⭐ **Ｉᴍᴅʙ Ｒᴀᴛɪɴɢ:** ${imdbRating}
-📖 **Ｐʟᴏᴛ:** ${Plot}
-🔗 **Ｉᴍᴅʙ Ｌɪɴᴋ:** [IMDB Link](https://www.imdb.com/title/${imdbID})`;
+📖 **Ｐʟᴏᴛ:** ${Plot}`;
 
-        // Send the thumbnail and details
-        await conn.sendMessage(from, { image: { url: Poster }, caption: movieMessage }, { quoted: mek });
-
+        // Send the poster image with the movie details
+        if (Poster && Poster !== "N/A") {
+            await conn.sendMessage(from, { image: { url: Poster }, caption: movieMessage }, { quoted: mek });
+        } else {
+            reply(movieMessage); // Send only text if no poster is available
+        }
     } catch (error) {
-        console.error('Movie search error:', error);
+        console.error("Movie search error:", error);
         reply("❌ An error occurred while searching for the movie. Please try again later.");
     }
 });
