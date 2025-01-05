@@ -1,24 +1,23 @@
 // ping.js
 
 const { cmd } = require('../command');
-const { sleep } = require('../lib/functions');
 
 // Register the "ping" command to check bot latency
 cmd({
     pattern: "ping",
     desc: "Check bot latency",
-    category: "info",  // Category for general information
+    category: "info", // Category for general information
     filename: __filename
 },
 async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, reply }) => {
     try {
-        await m.react("🌏");
+        await m.react("🏓");
 
         // Record the start time
         const startTime = Date.now();
 
-        // Send a message to calculate the round trip time (RTT)
-        const pingMessage = await reply("Ｐɪɴɢɪɴʜ...");
+        // Send a temporary response to calculate latency
+        await reply("🏓 ᴘɪɴɢɪɴɢ...");
 
         // Calculate the round trip time (RTT)
         const pingTime = Date.now() - startTime;
@@ -28,7 +27,7 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
 
 ╭─────────────✑
 
- Ｒᴇꜱᴘᴏɴꜱᴇ ꜱᴘᴇᴇᴅ ɪꜱ : ${pingTime}ms
+🏓 ᴘᴏɴɢ! ʟᴀᴛᴇɴᴄʏ : ${pingTime}ms
 
 ╰─────────────✑
 
@@ -39,8 +38,8 @@ async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sen
 > Ｐᴏᴡᴇʀᴇᴅ Ｂʏ  Ｃʜᴀʀᴜᴋᴀ ᵀᴹ🧚‍♀️
         `;
 
-        // Send the status message
-        await pingMessage.edit(statusMessage);
+        // Send the final response
+        reply(statusMessage);
     } catch (e) {
         console.error(e);
         reply(`Error occurred: ${e}`);
