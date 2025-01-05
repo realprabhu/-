@@ -1,36 +1,47 @@
-const { cmd } = require('../command'); // Import your command registration method
-const googleIt = require('google-it'); // Import google-it package
+const { cmd } = require('../command');
+const fetch = require('node-fetch');
 
 cmd({
     pattern: "google",
-    desc: "🌐 Perform a Google search and get top results 🔎",
+    desc: "🌐 Perform a Google search 🔎",
     category: "info",
     filename: __filename,
 },
 async (conn, mek, m, { args, reply }) => {
     if (!args.length) {
-        return reply("❌ *Error:* Please provide a search query!\n\nExample: `.google Node.js` 🌐");
+        return reply("❌ Please provide a search query! Example: `.google Node.js` 🌐");
     }
 
-    const query = args.join(" "); // Combine user input into a search query
+    const query = encodeURIComponent(args.join(" "));
+    const url = `https://www.google.com/search?q=${query}`;
 
     try {
-        // Perform Google search using google-it
-        const results = await googleIt({ query });
+        // Fetch Google search results
+        const response = await fetch(url);
+        const html = await response.text();
 
-        if (results && results.length > 0) {
-            // Prepare the response with top 5 results
-            let response = `🌍 *Google Search Results for:* 🔍 _${query}_\n\n`;
-            results.slice(0, 5).forEach((result, index) => {
-                response += `⭐ ${index + 1}. *${result.title}*\n🔗 ${result.link}\n📄 ${result.snippet}\n\n`;
+        // Extract search results using regex
+        const regex = /<a href="\/url\?q=([^&]+)&amp;.*?">(.*?)<\/a>/g;
+        let match;
+        let results = [];
+        while ((match = regex.exec(html)) !== null) {
+            const link = decodeURIComponent(match[1]);
+            const title = match[2].replace(/<.*?>/g, ""); // Remove HTML tags
+            results.push({ title, link });
+            if (results.length >= 5) break; // Limit to top 5 results
+        }
+
+        if (results.length > 0) {
+            let responseText = `🌍 *Google Search Results for:* 🔍 _${args.join(" ")}_\n\n`;
+            results.forEach((result, index) => {
+                responseText += `⭐ ${index + 1}. *${result.title}*\n🔗 ${result.link}\n\n`;
             });
-
-            reply(response.trim()); // Send the formatted response
+            reply(responseText.trim());
         } else {
-            reply(`⚠️ No results found for: "${query}".\n\n💡 *Tip:* Try a different or simpler query! 🌐`);
+            reply(`⚠️ No results found for: "${args.join(" ")}" 🌐`);
         }
     } catch (error) {
-        console.error(error);
-        reply("❌ *Error:* Unable to complete the search. Please check your connection or try again later! 🔧");
+        console.error('Error:', error);
+        reply("❌ An error occurred while searching. Please try again later.");
     }
 });
