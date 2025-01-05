@@ -4,7 +4,7 @@ const { sleep } = require('../lib/functions');
 
 // Register the "npmsearch" command to search for npm packages
 cmd({
-    pattern: "npmsearch",
+    pattern: "npm",
     desc: "Search for npm packages based on query",
     category: "search",  // Category for search-related commands
     filename: __filename
