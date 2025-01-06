@@ -175,6 +175,8 @@ command.function(conn, mek, m,{from, l, quoted, body, isCmd, command, args, q, i
 }});
 //============================================================================ 
 
+if(!isOwner && config.MODE === "private") return
+           
 })
 }
 app.get("/", (req, res) => {
