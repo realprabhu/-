@@ -71,15 +71,15 @@ console.log('Bot connected to whatsapp ✅')
 
 let up = `*Ｗʜɪꜱᴘᴇʀ ᴹᴰ*🧚‍♀️ ɪꜱ ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴛᴏ ᴛʜᴇ ʏᴏᴜʀ ᴡʜᴀᴛꜱᴀᴘᴘ..💝
 
-> Ｏᴡɴᴇʀ |• Ｃʜᴀʀᴜᴋᴀ❤️‍🩹
+> Ｏᴡɴᴇʀ |• Ｃʜᴀʀᴜᴋᴀ
 
-> Ｏᴡɴᴇʀ ɴᴜᴍʙᴇʀ |• 0789748241📞
+> Ｏᴡɴᴇʀ ɴᴜᴍʙᴇʀ |• 0789748241
 
 *ᴛʜᴀɴᴋꜱ ꜰᴏʀ ᴜꜱɪɴɢ*
 
 > Ｐᴏᴡᴇʀᴇᴅ Ｂʏ  Ｃʜᴀʀᴜᴋᴀ ᵀᴹ🧚‍♀️`;
 
-conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://ibb.co/42yMsmN` }, caption: up })
+conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://raw.githubusercontent.com/CharukaMahesh/-/refs/heads/main/img/cyberpunk.jpeg?token=GHSAT0AAAAAAC2GQJENALKYWKYEK6B4FNYGZ34A2VA` }, caption: up })
 
 }
 })
