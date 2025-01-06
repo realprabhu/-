@@ -1,20 +1,28 @@
 const axios = require('axios');
 const { cmd } = require('../command');
-const { fetchJson } = require('../lib/functions');
 
-// Register the "npmsearch" command to search for npm packages
+// Register the "ai" command
 cmd({
     pattern: "ai",
-    desc: "Search for npm packages based on query",
-    category: "ai",  // Category for search-related commands
+    desc: "Interact with ChatGPT API for AI responses",
+    category: "ai",
     filename: __filename
 },
-async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, reply }) => {
+async (conn, mek, m, { from, quoted, q, reply }) => {
     try {
-        let data = fetchJson(`https://chatgptforprabath-md.vercel.app/api/gptv1?q=${q}`)
-        return reply(`${data.data}`)
- }catch(e){
-   console.log('e')
-    reply(`${e}`)
-}
-})
+        if (!q) return reply("*🚫 Please provide a query for the AI.*");
+
+        // Make the API request
+        const response = await axios.get(`https://chatgptforprabath-md.vercel.app/api/gptv1?q=${encodeURIComponent(q)}`);
+        
+        if (response.data && response.data.data) {
+            // Send the AI response
+            return reply(`*🤖 AI Response:*\n\n${response.data.data}`);
+        } else {
+            return reply("*⚠️ No valid response from the API.*");
+        }
+    } catch (error) {
+        console.error("Error:", error);
+        reply(`*❌ Error: ${error.message ? error.message : "Something went wrong"}*`);
+    }
+});
