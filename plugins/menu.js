@@ -1,5 +1,4 @@
 const { cmd } = require('../command');
-const fetch = require('node-fetch');
 
 // 📝 Menu Command
 cmd({
@@ -41,11 +40,8 @@ Hello ${userName} 👋
         // Image URL
         const imageURL = 'https://raw.githubusercontent.com/Charuka56/Queen-Chethi-V1/refs/heads/main/plugins/cyberpunk.jpeg';
 
-        // Fetch the image
-        const buffer = await fetch(imageURL).then(res => res.buffer());
-
         // Send the image with the menu as caption
-        await conn.sendMessage(from, { image: buffer, caption: menu });
+        await conn.sendMessage(from, { image: { url: imageURL }, caption: menu });
     } catch (error) {
         console.error("Error in menu command:", error);
         reply("> ❌ An error occurred while displaying the menu.");
