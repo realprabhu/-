@@ -30,5 +30,8 @@
     "weather-js": "^2.0.0",
     "movie-info": "^3.0.2",
     "cheerio": "^1.0.0."
-  }
+  },
+   "engines": {
+    "node": "22.x"
+}
 }
