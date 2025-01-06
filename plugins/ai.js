@@ -12,9 +12,9 @@ cmd({
 async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, reply }) => {
     try {
         let data = fetchJson(`https://chatgptforprabath-md.vercel.app/api/gptv1?q=${q}`)
-
-
+        return reply(`${data.data}`)
  }catch(e){
    console.log('e')
     reply(`${e}`)
 }
+})
