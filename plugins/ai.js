@@ -11,7 +11,9 @@ cmd({
 },
 async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, reply }) => {
     try {
-        let data=
+        let data = fetchJson('')
+
+
  }catch(e){
    console.log('e')
     reply(`${e}`)
