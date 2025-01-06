@@ -11,3 +11,8 @@ cmd({
 },
 async (conn, mek, m, { from, quoted, body, isCmd, command, args, q, isGroup, sender, reply }) => {
     try {
+        let data=
+ }catch(e){
+   console.log('e')
+    reply(`${e}`)
+}
