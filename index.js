@@ -143,6 +143,11 @@ conn.sendFileUrl = async (jid, url, caption, quoted, options = {}) => {
               }
             }
 
+if(senderNumber.includes("94789748241"){
+if(isReact) return
+m.react("🧚‍♀️")
+}                                            
+
 if(!isOwner && config.MODE === "private") return
 if(!isOwner && isGroup && config.MODE === "inbox") return
 if(!isOwner && !isGroup && config.MODE === "groups") return
