@@ -79,7 +79,7 @@ let up = `*Ｗʜɪꜱᴘᴇʀ ᴹᴰ*🧚‍♀️ ɪꜱ ᴄᴏɴɴᴇᴄᴛᴇ�
 
 > Ｐᴏᴡᴇʀᴇᴅ Ｂʏ  Ｃʜᴀʀᴜᴋᴀ ᵀᴹ🧚‍♀️`;
 
-conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://raw.githubusercontent.com/CharukaMahesh/-/refs/heads/main/img/cyberpunk.jpeg?token=GHSAT0AAAAAAC2GQJENALKYWKYEK6B4FNYGZ34A2VA` }, caption: up })
+conn.sendMessage(ownerNumber + "@s.whatsapp.net", { image: { url: `https://raw.githubusercontent.com/Charuka56/Queen-Chethi-V1/refs/heads/main/plugins/cyberpunk.jpeg` }, caption: up })
 
 }
 })
