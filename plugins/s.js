@@ -1,5 +1,4 @@
-const { cmd } = require('../command');
-const { isOwner } = require('../helpers'); // Assuming you have a helper to check if the user is the owner
+const { cmd } = require('../command'); // Assuming you have a helper to check if the user is the owner
 
 cmd({
     pattern: "settings",
