@@ -1,3 +1,41 @@
+const { updateEnv, readEnv } = require('../lib/database');
+const EnvVar = require('../lib/mongodbenv');
+const { cmd } = require('../command');
+
+cmd({
+    pattern: "update",
+    alias: ["updateenv"],
+    desc: "Check and update environment variables",
+    category: "owner",
+    filename: __filename,
+},
+async (conn, mek, m, { from, q, reply, isOwner }) => {
+    if (!isOwner) return;
+
+    if (!q) {
+        return reply("🙇‍♂️ *Please provide the environment variable and its new value.* \n\nExample: `.update ALIVE_MSG: hello i am prabath kumara`");
+    }
+
+    // Find the position of the first colon or comma
+    const colonIndex = q.indexOf(':');
+    const commaIndex = q.indexOf(',');
+
+    // Ensure we have a valid delimiter index
+    const delimiterIndex = colonIndex !== -1 ? colonIndex : commaIndex;
+    if (delimiterIndex === -1) {
+        return reply("🫠 *Invalid format. Please use the format:* `.update KEY:VALUE`");
+    }
+
+    // Extract key and value
+    const key = q.substring(0, delimiterIndex).trim();
+    const value = q.substring(delimiterIndex + 1).trim();
+    
+    // Extract mode if provided
+    const parts = value.split(/\s+/).filter(part => part.trim());
+    const newValue = value; // Use the full value as provided by the user
+    const mode = parts.length > 1 ? parts.slice(1).join(' ').trim() : '';
+    
+    const validModes = ['public', 'private', 'groups', 'inbox'];
     const finalMode = validModes.includes(mode) ? mode : '';
 
     if (!key || !newValue) {
