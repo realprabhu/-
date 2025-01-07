@@ -1,7 +1,7 @@
 {
-  "name": "YourBot",
-  "description": "Javascript WhatsApp bot made by YourName",
-  "logo": "https://telegra.ph/file/ad25b2227fa2a1a01b707.jpg",
+  "name": "Ｗʜɪꜱᴘᴇʀ ᴹᴰ🧚‍♀️",
+  "description": "Javascript WhatsApp bot made by Charuka",
+  "logo": "https://raw.githubusercontent.com/Charuka56/Queen-Chethi-V1/refs/heads/main/plugins/cyberpunk.jpeg",
   "keywords": ["bot"],
   "success_url": "/",
   "env": {
