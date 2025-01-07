@@ -13,7 +13,7 @@ async (conn, mek, m, { from, q, reply, isOwner }) => {
     if (!isOwner) return;
 
     if (!q) {
-        return reply("🙇‍♂️ *Please provide the environment variable and its new value.* \n\nExample: `.update ALIVE_MSG: hello i am prabath kumara`");
+        return reply("🙇‍♂️ *Please provide the environment variable and its new value.* \n\nExample: `.update ALIVE_MSG: Ｐᴏᴡᴇʀᴇᴅ Ｂʏ Ｃʜᴀʀᴜᴋᴀ ᵀᴹ 🧚‍♀️`");
     }
 
     // Find the position of the first colon or comma
@@ -68,7 +68,7 @@ async (conn, mek, m, { from, q, reply, isOwner }) => {
 
         // Update the environment variable
         await updateEnv(key, newValue, finalMode);
-        reply(`✅ *Environment variable updated.*\n\n🗃️ *${key}* ➠ ${newValue} ${finalMode ? `\n*Mode:* ${finalMode}` : ''}`);
+        reply(`🧚‍♀️ *Environment variable updated.*\n\n⚙️ *${key}* ➠ ${newValue} ${finalMode ? `\n*Mode:* ${finalMode}`\ｎ\ｎ> Ｐᴏᴡᴇʀᴇᴅ Ｂʏ Ｃʜᴀʀᴜᴋᴀ ᵀᴹ 🧚‍♀️ : ''}`);
         
     } catch (err) {
         console.error('Error updating environment variable:' + err.message);
