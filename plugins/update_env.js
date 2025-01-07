@@ -4,7 +4,7 @@ const { cmd } = require('../command');
 
 cmd({
     pattern: "update",
-    alias: ["updateenv"],
+    alias: ["setvar"],
     desc: "Check and update environment variables",
     category: "owner",
     filename: __filename,
@@ -13,7 +13,7 @@ async (conn, mek, m, { from, q, reply, isOwner }) => {
     if (!isOwner) return;
 
     if (!q) {
-        return reply("🙇‍♂️ *Please provide the environment variable and its new value.* \n\nExample: `.update ALIVE_MSG: Ｐᴏᴡᴇʀᴇᴅ Ｂʏ Ｃʜᴀʀᴜᴋᴀ ᵀᴹ 🧚‍♀️`");
+        return reply("🙇‍♂️ *Please provide the environment variable and its new value.*\n\nExample: `.update ALIVE_MSG: Powered By Charuka™ 🧚‍♀️`");
     }
 
     // Find the position of the first colon or comma
@@ -48,7 +48,7 @@ async (conn, mek, m, { from, q, reply, isOwner }) => {
     }
 
     if (key === 'ALIVE_IMG' && !newValue.startsWith('https://')) {
-        return reply("😓 *Invalid URL format. PLEASE GIVE ME IMAGE URL*");
+        return reply("😓 *Invalid URL format. Please provide a valid image URL starting with `https://`.*");
     }
 
     if (key === 'AUTO_READ_STATUS' && !['true', 'false'].includes(newValue)) {
@@ -68,10 +68,25 @@ async (conn, mek, m, { from, q, reply, isOwner }) => {
 
         // Update the environment variable
         await updateEnv(key, newValue, finalMode);
-        reply(`🧚‍♀️ *Environment variable updated.*\n\n⚙️ *${key}* ➠ ${newValue} ${finalMode ? `\n*Mode:* ${finalMode}`\ｎ\ｎ> Ｐᴏᴡᴇʀᴇᴅ Ｂʏ Ｃʜᴀʀᴜᴋᴀ ᵀᴹ 🧚‍♀️ : ''}`);
-        
+        reply(`
+╭─❰ *⦿ ENVIRONMENT VARIABLES UPDATED ⦿* ❱─╮  
+│  
+│ ✦ **Environment variable has been updated successfully!**  
+│  
+╰───────────────╯  
+
+┏━【 UPDATED VARIABLE 】━┓  
+┃  
+┃ • 🧚‍♀️\`${key}\` ➠ ⚙️ ${newValue}  
+┃ ${finalMode ? `*Mode:* ${finalMode}` : ''}
+┃  
+┗━━━━━━━━━━━━━━━━━━━┛  
+
+> Ｐᴏᴡᴇʀᴇᴅ Ｂʏ Ｃʜᴀʀᴜᴋᴀ ᵀᴹ 🧚‍♀️
+`);
+
     } catch (err) {
-        console.error('Error updating environment variable:' + err.message);
-        reply("🙇‍♂️ *Failed to update the environment variable. Please try again.*" + err);
+        console.error('Error updating environment variable: ' + err.message);
+        reply("🙇‍♂️ *Failed to update the environment variable. Please try again later.*");
     }
 });
