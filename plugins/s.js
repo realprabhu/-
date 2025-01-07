@@ -43,7 +43,9 @@ async (conn, mek, m, { from, reply, isOwner }) => {
 ┃ • \`SETVAR ALIVE_MSG: <YOUR_MESSAGE>\` 💬 *(CUSTOMIZE THE ALIVE MESSAGE)*  
 ┃ • \`SETVAR ALIVE_IMG: <IMAGE_URL>\` 🖼️ *(SET THE ALIVE IMAGE)*  
 ┃  
-┗━━━━━━━━━━━━━━━━━━━━━━┛  
+┗━━━━━━━━━━━━━━━━━━━━━━┛ 
+
+> Ｐᴏᴡᴇʀᴇᴅ Ｂʏ Ｃʜᴀʀᴜᴋᴀ ᵀᴹ 🧚‍♀️
     `;
 
     // Send the settings message
