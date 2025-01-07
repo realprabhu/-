@@ -43,7 +43,9 @@ async function connectToWA() {
 const connectDB = require('.lib/mongodb')
 connectDB();
 
-const {readEnv } = require('.lib/database')       
+const {readEnv } = require('.lib/database')
+const config = await readEnv();
+const prefix = config.PREFIX
 console.log("Connecting wa bot 🧬...");
 const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/auth_info_baileys/')
 var { version } = await fetchLatestBaileysVersion()
