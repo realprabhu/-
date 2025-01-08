@@ -18,7 +18,7 @@
       "required": false
     },
     "MONGODB": {
-      "description": "Put Your MongoDB Database Url Here.",
+      "description": "mongodb+srv://sapsaraprabhuinduranga777:<Sapsara123@>@cluster0.l7xtx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
       "required": true
     }
   },
